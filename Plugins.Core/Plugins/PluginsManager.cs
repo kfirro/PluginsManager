@@ -17,7 +17,11 @@ namespace Plugins.Core
         public int PluginCount { get { return plugins.Count; } }
         public bool HasType(PluginType pluginType)
         {
-            return Instance.plugins?.Where(p => p.Type.Equals(pluginType)).Any() ?? false;
+            return Instance.plugins?.Any(p => p.Type.Equals(pluginType)) ?? false;
+        }
+        public bool IsExists(PluginType pluginType,string pluginName)
+        {
+            return Instance.plugins?.Any(p => p.Type.Equals(pluginType) && p.Name == pluginName) ?? false;
         }
         public bool RunPlugin(PluginType pluginType, string pluginName,IConfiguration configuration)
         {
