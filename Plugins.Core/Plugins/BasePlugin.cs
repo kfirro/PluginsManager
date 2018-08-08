@@ -23,13 +23,24 @@ namespace Plugins.Core
             get;
             set;
         }
+        public IConfiguration Configuration
+        {
+            get;
+            protected set;
+        }
+        public bool IsConfigurationLoaded
+        {
+            get;
+            protected set;
+        }
+
         public BasePlugin(string name,string description,PluginType type)
         {
             Name = name;
             Description = description;
             Type = type;
         }
-        public abstract bool Load();
+        public abstract bool Load(IConfiguration configuration);
         public abstract bool Run();
     }
 }

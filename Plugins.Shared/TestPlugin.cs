@@ -12,14 +12,27 @@ namespace Plugins.Shared
         public TestPlugin() : base("TestPlugin", "TestPlugin", PluginType.DataLoader)
         {
         }
-        public override bool Load()
+        public override bool Load(IConfiguration configuration)
         {
-            Console.WriteLine("TestPlugin Loading!");
-            return true;
+            if (IsConfigurationLoaded)
+                return true;
+            Console.WriteLine("TestPlugin Loading configuration!");
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration), $"TestPlugin configuration is null!");
+            Configuration = configuration;
+            var filePath = ((CsvFileConfiguration)Configuration).FilePath;
+            ((CsvFileConfiguration)Configuration).LoadConfiguration();
+            IsConfigurationLoaded = true;
+            return IsConfigurationLoaded;
         }
         public override bool Run()
         {
             Console.WriteLine("TestPlugin Running!");
+            var config = Configuration as CsvFileConfiguration;
+            foreach (var kvp in config.KVP)
+            {
+                Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
+            }
             return true;
         }
     }

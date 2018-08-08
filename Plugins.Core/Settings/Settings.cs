@@ -1,4 +1,5 @@
-﻿namespace Plugins.Core {
+﻿namespace Plugins.Core
+{
     
     
     // This class allows you to handle specific events on the settings class:

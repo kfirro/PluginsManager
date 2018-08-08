@@ -19,12 +19,13 @@ namespace Plugins.Core
         {
             return Instance.plugins?.Where(p => p.Type.Equals(pluginType)).Any() ?? false;
         }
-        public bool RunPlugin(PluginType pluginType, string pluginName)
+        public bool RunPlugin(PluginType pluginType, string pluginName,IConfiguration configuration)
         {
             var plugin = Instance.plugins?.FirstOrDefault(p =>
                 p.Type.Equals(pluginType) && p.Name == pluginName);
             if (plugin == null)
                 throw new PlatformNotSupportedException($"There's no such plugin name and type! {nameof(pluginName)}: {pluginName}, {nameof(pluginType)}: {pluginType}");
+            plugin.Load(configuration);
             return plugin.Run();
         }
         private PluginsManager(bool autoLoad = true)
@@ -55,7 +56,7 @@ namespace Plugins.Core
             {
                 var loadedPlugins = container.ResolveAll<IPlugin>();
                 plugins = loadedPlugins?.ToList();
-                plugins?.ForEach(p => p.Load());
+                //plugins?.ForEach(p => p.Load());
             }
         }
     }

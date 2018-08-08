@@ -12,7 +12,7 @@ namespace Plugins.Core
         string Name { get; set; }
         string Description { get; set; }
         PluginType Type { get; set; }
-        bool Load();
+        bool Load(IConfiguration configuration);
         bool Run();
     }
 }
