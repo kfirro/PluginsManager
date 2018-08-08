@@ -9,7 +9,11 @@ namespace Plugins.Shared
 {
     public class TestPlugin : BasePlugin
     {
-        public TestPlugin() : base("TestPlugin", "TestPlugin", PluginType.DataLoader)
+        private const string VERSION = "1.0.0.0";
+        private const string PLUGIN_NAME = "TestPlugin";
+        private const string PLUGIN_DESCRIPTION = "TestPlugin - first plugin to test the actual plugins manager";
+        private const PluginType PLUGIN_TYPE = PluginType.DataLoader;
+        public TestPlugin() : base(PLUGIN_NAME, PLUGIN_DESCRIPTION, PLUGIN_TYPE, VERSION)
         {
         }
         public override bool Load(IConfiguration configuration)

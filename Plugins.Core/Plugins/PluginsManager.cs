@@ -32,6 +32,13 @@ namespace Plugins.Core
             plugin.Load(configuration);
             return plugin.Run();
         }
+        public IEnumerable<PluginsWrapper> GetPlugins()
+        {
+            foreach (IPlugin plugin in Instance.plugins)
+            {
+                yield return plugin.ToPluginsWrapper();
+            }
+        }
         private PluginsManager(bool autoLoad = true)
         {
             LoadContainer();

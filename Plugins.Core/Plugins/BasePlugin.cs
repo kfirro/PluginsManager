@@ -34,11 +34,17 @@ namespace Plugins.Core
             protected set;
         }
 
-        public BasePlugin(string name,string description,PluginType type)
+        public string Version
+        {
+            get;
+        }
+
+        public BasePlugin(string name,string description,PluginType type,string version)
         {
             Name = name;
             Description = description;
             Type = type;
+            Version = version;
         }
         public abstract bool Load(IConfiguration configuration);
         public abstract bool Run();

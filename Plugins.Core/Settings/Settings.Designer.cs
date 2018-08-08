@@ -25,7 +25,7 @@ namespace Plugins.Core {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\temp\\Plugins")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"C:\temp\Plugins")]
         public string PluginsPath {
             get {
                 return ((string)(this["PluginsPath"]));

@@ -78,6 +78,7 @@
     <Compile Include="Plugins\IPlugin.cs" />
     <Compile Include="Plugins\BasePlugin.cs" />
     <Compile Include="Plugins\PluginsManager.cs" />
+    <Compile Include="Plugins\PluginsWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Settings\Settings.Designer.cs">
