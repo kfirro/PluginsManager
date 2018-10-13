@@ -16,7 +16,8 @@ namespace PluginsTester
             Console.WriteLine($"HasType DataLoader? Answer: {pManager.HasType(PluginType.DataLoader)}");
             Console.WriteLine($"HasPlugin DataLoader? Answer: {pManager.HasType(PluginType.DataLoader)}");
             var config = new CsvFileConfiguration(@"C:\temp\config.txt");
-            Console.WriteLine($"Running plugin TestPlugin, result is: {pManager.RunPlugin(PluginType.DataLoader, "TestPlugin",config)}");
+            Console.WriteLine($"Loading plugin TestPlugin's configuration, result is: {pManager.LoadPluginConfiguration(PluginType.DataLoader, "TestPlugin",config)}");
+            Console.WriteLine($"Running plugin TestPlugin, result is: {pManager.ExecutePlugin(PluginType.DataLoader, "TestPlugin")}");
             Console.WriteLine($"Printing current available plugins");
             foreach (var plugin in pManager.GetPlugins())
             {

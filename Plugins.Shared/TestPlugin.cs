@@ -16,8 +16,9 @@ namespace Plugins.Shared
         public TestPlugin() : base(PLUGIN_NAME, PLUGIN_DESCRIPTION, PLUGIN_TYPE, VERSION)
         {
         }
-        public override bool Load(IConfiguration configuration)
+        public override bool Load(IConfiguration configuration) 
         {
+            base.Load(configuration);
             if (IsConfigurationLoaded)
                 return true;
             Console.WriteLine("TestPlugin Loading configuration!");
@@ -31,6 +32,7 @@ namespace Plugins.Shared
         }
         public override bool Run()
         {
+            base.Run();
             Console.WriteLine("TestPlugin Running!");
             var config = Configuration as CsvFileConfiguration;
             foreach (var kvp in config.KVP)
@@ -38,6 +40,16 @@ namespace Plugins.Shared
                 Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
             }
             return true;
+        }
+
+        public override void BasePlugin_OnRun(dynamic Context)
+        {
+            Console.WriteLine("TestPlugin::OnRun");
+        }
+
+        public override void BasePlugin_OnLoad(dynamic Context)
+        {
+            Console.WriteLine("TestPlugin::OnLoad");
         }
     }
 }

@@ -19,31 +19,39 @@ namespace Plugins.Core
         {
             return Instance.plugins?.Any(p => p.Type.Equals(pluginType)) ?? false;
         }
-        public bool IsExists(PluginType pluginType,string pluginName)
+        public bool IsExists(PluginType pluginType, string pluginName)
         {
             return Instance.plugins?.Any(p => p.Type.Equals(pluginType) && p.Name == pluginName) ?? false;
         }
-        public bool RunPlugin(PluginType pluginType, string pluginName,IConfiguration configuration)
+        public bool ExecutePlugin(PluginType pluginType, string pluginName)
         {
             var plugin = Instance.plugins?.FirstOrDefault(p =>
                 p.Type.Equals(pluginType) && p.Name == pluginName);
             if (plugin == null)
                 throw new PlatformNotSupportedException($"There's no such plugin name and type! {nameof(pluginName)}: {pluginName}, {nameof(pluginType)}: {pluginType}");
-            plugin.Load(configuration);
+            if(!((BasePlugin)plugin).IsConfigurationLoaded)
+                throw new Exception($"Plugin's configuration isn't loaded!");
             return plugin.Run();
+        }
+        public bool LoadPluginConfiguration(PluginType pluginType, string pluginName, IConfiguration configuration)
+        {
+            var plugin = Instance.plugins?.FirstOrDefault(p =>
+                p.Type.Equals(pluginType) && p.Name == pluginName);
+            if (plugin == null)
+                throw new PlatformNotSupportedException($"Plugin {pluginName} wasn't loaded!");
+            if (((BasePlugin)plugin).IsConfigurationLoaded)
+                return true; //Already loaded
+            return plugin.Load(configuration);
         }
         public IEnumerable<PluginsWrapper> GetPlugins()
         {
             foreach (IPlugin plugin in Instance.plugins)
-            {
                 yield return plugin.ToPluginsWrapper();
-            }
         }
-        private PluginsManager(bool autoLoad = true)
+        private PluginsManager()
         {
             LoadContainer();
-            if (autoLoad)
-                LoadPluginsToContainer();
+            LoadPluginsToContainer();
         }
         private void LoadContainer()
         {
@@ -53,10 +61,10 @@ namespace Plugins.Core
             {
                 Assembly assembly = Assembly.LoadFrom(file);
                 assembly.GetTypes().
-                    Where(t=> typeof(IPlugin).IsAssignableFrom(t)).ToList().
+                    Where(t => typeof(IPlugin).IsAssignableFrom(t)).ToList().
                     ForEach(p =>
                     {
-                        IPlugin pluginInstance = (IPlugin)Activator.CreateInstance(p, new object[]{  });
+                        IPlugin pluginInstance = (IPlugin)Activator.CreateInstance(p, new object[] { });
                         container.RegisterInstance<IPlugin>(pluginInstance.Name, pluginInstance);
                     });
             }
